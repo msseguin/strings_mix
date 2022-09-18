@@ -1,6 +1,8 @@
 import unittest
 
 class string_tests(unittest):
+
+    def 
     test.describe("Mix")
     test.it("Basic Tests")
     test.assert_equals(mix("Are they here", "yes, they are here"), "2:eeeee/2:yy/=:hh/=:rr")

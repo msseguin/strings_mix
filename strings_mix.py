@@ -15,34 +15,44 @@ def mix(s1, s2):
     # TODO - remove 1 count items
     # TODO - sort by length
     for letter in s1_dictionary:
-        if letter in s2_dictionary:
-            if s1_dictionary[letter] > s2_dictionary[letter]:
-                output_string.append(buildLettersString("1",letter, s1_dictionary[letter]))
-            elif s1_dictionary[letter] == s2_dictionary[letter]:
-                output_string.append(buildLettersString("=",letter,s2_dictionary[letter]))
-            else:
-                output_string.append(buildLettersString("=",letter,s1_dictionary[letter]))
-        else:
-             output_string.append(buildLettersString("1",letter, s1_dictionary[letter]))
-    
-   # for letter in s2_dictionary:
-    #    if letter not in s2_dictionary:
-     #       output_string.append(buildLettersString("1",letter, s1_dictionary[letter]))
-    
+        if letter.islower(): # confirm it is lower case
+            if letter in s2_dictionary:
+                if len(s1_dictionary[letter]) > len(s2_dictionary[letter]):
+                    if len(s1_dictionary[letter]) > 1:
+                        output_string.append("1:"+s1_dictionary[letter]+"/")
+                elif len(s1_dictionary[letter]) < len(s2_dictionary[letter]):
+                    output_string.append("2:"+s2_dictionary[letter]+"/")
+                elif len(s1_dictionary[letter]) == len(s2_dictionary[letter]):
+                    if len(s1_dictionary[letter]) > 1:
+                        output_string.append("=:"+s2_dictionary[letter]+"/")
+            elif len(s1_dictionary[letter]) > 1:
+                output_string.append("1:"+s1_dictionary[letter]+"/")
 
-    output_string= sorted(output_string, key=len)
+    # check for any stragglers
+    for letter in s2_dictionary:
+        if letter.islower(): # confirm it is lower case
+            if len(s2_dictionary[letter]) > 1:
+                if letter not in s1_dictionary:
+                    output_string.append("2:"+s2_dictionary[letter]+"/")
+
+
+    output_string.sort(key=len)
     
-    return output_string
+    print(output_string.reverse())
     
-# build a count dictionary
+    output_string = ''.join(output_string)
+    
+    return output_string[:-1]
+    
+# build a dictionary with each letter and string of total
 def count_letters(letters):
     letters_counts = {}
     for letter in letters:
         if letter.islower():
             if letter in letters_counts:
-                letters_counts[letter] += 1
+                letters_counts[letter] += letter
             else:
-                letters_counts[letter] = 1
+                letters_counts[letter] = letter
     return letters_counts
 
 # builds            
