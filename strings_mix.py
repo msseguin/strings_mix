@@ -35,15 +35,20 @@ def mix(s1, s2):
                 if letter not in s1_dictionary:
                     output_string.append("2:"+s2_dictionary[letter]+"/")
 
-
-    output_string.sort(key=len)
+    # sorts based on length
+    output_string.sort(key=len,reverse=True)
     
-    print(output_string.reverse())
-    
+    # build the string
     output_string = ''.join(output_string)
     
+    # remove last / in string 
     return output_string[:-1]
-    
+
+# def sort_list(output_string)
+#def sort_list(output_string):
+
+
+# def count_letters(letters):
 # build a dictionary with each letter and string of total
 def count_letters(letters):
     letters_counts = {}
@@ -66,5 +71,4 @@ def buildLettersString(symbol,letter,count):
     
     # output the string
     return letters_string
-        
         
