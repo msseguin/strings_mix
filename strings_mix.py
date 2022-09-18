@@ -1,59 +1,54 @@
 def mix(s1, s2):
-    # use list to get all chars
+    # use list to get a list of all chars
     letters_s1 = list(s1)
     letters_s2 = list(s2)
     
-    # build dictionaries with counts
+    # build dictionaries with strings for all chars (filter after)
     s1_dictionary = count_letters(letters_s1)
     s2_dictionary = count_letters(letters_s2)
     
-    print(s1_dictionary)
-    print(s2_dictionary)
+    # list of all the strings that will be output (not sorted)
+    chars_lst = []
     
-    output_string = []
-
-    # TODO - remove 1 count items
-    # TODO - sort by length
+    # check all elements that exist in dictionary that will be added for string 1 or =
     for letter in s1_dictionary:
         if letter.islower(): # confirm it is lower case
             if letter in s2_dictionary:
                 if len(s1_dictionary[letter]) > len(s2_dictionary[letter]):
                     if len(s1_dictionary[letter]) > 1:
-                        output_string.append("1:"+s1_dictionary[letter]+"/")
+                        chars_lst.append("1:"+s1_dictionary[letter]+"/")
                 elif len(s1_dictionary[letter]) < len(s2_dictionary[letter]):
-                    output_string.append("2:"+s2_dictionary[letter]+"/")
+                    chars_lst.append("2:"+s2_dictionary[letter]+"/")
                 elif len(s1_dictionary[letter]) == len(s2_dictionary[letter]):
                     if len(s1_dictionary[letter]) > 1:
-                        output_string.append("=:"+s2_dictionary[letter]+"/")
+                        chars_lst.append("=:"+s2_dictionary[letter]+"/")
             elif len(s1_dictionary[letter]) > 1:
-                output_string.append("1:"+s1_dictionary[letter]+"/")
+                chars_lst.append("1:"+s1_dictionary[letter]+"/")
 
-    # check for any stragglers
+    # check for any stragglers in dictionary for string 2
     for letter in s2_dictionary:
         if letter.islower(): # confirm it is lower case
             if len(s2_dictionary[letter]) > 1:
                 if letter not in s1_dictionary:
-                    output_string.append("2:"+s2_dictionary[letter]+"/")
+                    chars_lst.append("2:"+s2_dictionary[letter]+"/")
 
-    # sorts based on length
-    output_string.sort(key=len,reverse=True)
+    output_string = formatOutputString(chars_lst)
     
-    # build the string
-    output_string = ''.join(output_string)
+    
     
     # remove last / in string 
-    return output_string[:-1]
+    return output_string
 
-# def sort_list(output_string)
-#def sort_list(output_string):
 
 
 # def count_letters(letters):
 # build a dictionary with each letter and string of total
+# maintains order for python 3.6 and above 
 def count_letters(letters):
     letters_counts = {}
     for letter in letters:
         if letter.islower():
+            # if it has not been added, add it, otherwise add one more copy of the letter on it
             if letter in letters_counts:
                 letters_counts[letter] += letter
             else:
@@ -61,14 +56,24 @@ def count_letters(letters):
     return letters_counts
 
 # builds            
-def buildLettersString(symbol,letter,count):
-    # build the string using a while loop
-    letters_string = symbol+":"
-    while count > 0:
-        letters_string += letter
-        count -=1
-    letters_string +="/"
+def buildLettersString(symbol,letters):
+    # build the string start and end
+    return symbol+":"+ letters + "/"
+
+# def formatOutputString(chars_lst:list[str])
+# Takes in list of strings with largest letters
+# sorts them alphabeticaly and then by length
+# joins them and outputs as string
+def formatOutputString(chars_lst:list[str]):
+    # sort the output alphabetically (part of the required ordering)
+    chars_lst.sort()
     
-    # output the string
-    return letters_string
-        
+    # sorts based on length
+    chars_lst.sort(key=len,reverse=True)
+    # sort(key=lambda s: len(s))
+    
+    # build the string
+    output_string = ''.join(chars_lst)
+    
+    #remove the last character (extra /)
+    return output_string[:-1]
